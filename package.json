@@ -14,7 +14,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:os-theme.toggle",
+		"onCommand:os-theme.enable",
 		"onStartupFinished"
 	],
 	"main": "./out/extension.js",
