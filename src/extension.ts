@@ -54,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
 		setLightTheme(true);
 	});
 
-	vscode.commands.registerCommand(extPrefix + '.toggle', () => {
+	vscode.commands.registerCommand(extPrefix + '.enable', () => {
 		userConfig.update(extPrefix + ".enabled", !enabled, true);
 		enabled = !enabled;
 	});

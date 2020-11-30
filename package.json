@@ -5,8 +5,8 @@
 		"url": "https://github.com/Hoff97/vscode-os-theme"
 	},
 	"displayName": "OS Theme",
-	"description": "Automatically adapt to the light/dark setting of your OS",
-	"version": "0.0.1",
+	"description": "Automatically adapt to the light/dark mode setting of your OS",
+	"version": "1.0.1",
 	"engines": {
 		"vscode": "^1.51.0"
 	},
@@ -21,8 +21,8 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "os-theme.toggle",
-				"title": "OS Theme: Toggle"
+				"command": "os-theme.enable",
+				"title": "OS Theme: Enable/Disable"
 			},
 			{
                 "command": "os-theme.switchToDarkTheme",
