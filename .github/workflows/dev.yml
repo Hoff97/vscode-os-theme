@@ -1,8 +1,8 @@
-name: Lint, build and deploy
+name: Lint and build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ develop ]
   workflow_dispatch:
 
 jobs:
@@ -17,8 +17,3 @@ jobs:
       - run: npm install
       - run: npm run lint
       - run: npm run compile
-      - uses: lannonbr/vsce-action@master
-        with:
-          args: "publish -p $VSCE_TOKEN"
-        env:
-          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
