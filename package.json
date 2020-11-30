@@ -1,6 +1,7 @@
 {
 	"name": "os-theme",
-	"displayName": "os-theme",
+	"publisher": "hoff97",
+	"displayName": "OS Theme",
 	"description": "Automatically adapt to the light/dark setting of your OS",
 	"version": "0.0.1",
 	"engines": {
