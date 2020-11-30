@@ -6,7 +6,7 @@
 	},
 	"displayName": "OS Theme",
 	"description": "Automatically adapt to the light/dark mode setting of your OS",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"engines": {
 		"vscode": "^1.51.0"
 	},
@@ -25,17 +25,17 @@
 				"title": "OS Theme: Enable/Disable"
 			},
 			{
-                "command": "os-theme.switchToDarkTheme",
-                "title": "OS Theme: Dark Theme"
-            },
-            {
-                "command": "os-theme.switchToLightTheme",
-                "title": "OS Theme: Light Theme"
-            },
-            {
-                "command": "os-theme.toggleLightDarkTheme",
-                "title": "OS Theme: Toggle Light/Dark Theme"
-            }
+				"command": "os-theme.switchToDarkTheme",
+				"title": "OS Theme: Dark Theme"
+			},
+			{
+				"command": "os-theme.switchToLightTheme",
+				"title": "OS Theme: Light Theme"
+			},
+			{
+				"command": "os-theme.toggleLightDarkTheme",
+				"title": "OS Theme: Toggle Light/Dark Theme"
+			}
 		],
 		"configuration": {
 			"title": "OS Theme",
@@ -46,29 +46,29 @@
 					"description": "Automatically adapt to the OS set light/dark mode"
 				},
 				"os-theme.darkTheme": {
-                    "type": "string",
-                    "default": "Visual Studio Dark",
-                    "description": "The dark theme"
-                },
-                "os-theme.darkThemeCustomizations": {
-                    "type": "object",
-                    "default": {},
-                    "description": "The dark theme color customizations"
-                },
-                "os-theme.lightTheme": {
-                    "type": "string",
-                    "default": "Visual Studio Light",
-                    "description": "The light theme"
-                },
-                "os-theme.lightThemeCustomizations": {
-                    "type": "object",
-                    "default": {},
-                    "description": "The light theme color customizations"
-                },
-                "os-theme.toggleDefaultDark": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "If neither light or dark theme are the current theme and toggle is triggered, switch to dark theme"
+					"type": "string",
+					"default": "Visual Studio Dark",
+					"description": "The dark theme"
+				},
+				"os-theme.darkThemeCustomizations": {
+					"type": "object",
+					"default": {},
+					"description": "The dark theme color customizations"
+				},
+				"os-theme.lightTheme": {
+					"type": "string",
+					"default": "Visual Studio Light",
+					"description": "The light theme"
+				},
+				"os-theme.lightThemeCustomizations": {
+					"type": "object",
+					"default": {},
+					"description": "The light theme color customizations"
+				},
+				"os-theme.toggleDefaultDark": {
+					"type": "boolean",
+					"default": true,
+					"description": "If neither light or dark theme are the current theme and toggle is triggered, switch to dark theme"
 				},
 				"os-theme.setOSTheme": {
 					"type": "boolean",
@@ -86,7 +86,7 @@
 					"description": "Light OS Theme"
 				}
 			}
-        }
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
@@ -97,16 +97,17 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.51.0",
 		"@types/glob": "^7.1.3",
 		"@types/mocha": "^8.0.0",
 		"@types/node": "^12.11.7",
-		"eslint": "^7.9.0",
+		"@types/vscode": "^1.51.0",
 		"@typescript-eslint/eslint-plugin": "^4.1.1",
 		"@typescript-eslint/parser": "^4.1.1",
+		"eslint": "^7.9.0",
 		"glob": "^7.1.6",
 		"mocha": "^8.1.3",
 		"typescript": "^4.0.2",
+		"vsce": "^1.81.1",
 		"vscode-test": "^1.4.0"
 	},
 	"dependencies": {
