@@ -17,4 +17,8 @@ jobs:
       - run: npm install
       - run: npm run lint
       - run: npm run compile
-      - run: npm run test
+      - uses: lannonbr/vsce-action@master
+        with:
+          args: "publish -p $VSCE_TOKEN"
+        env:
+          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
