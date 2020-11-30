@@ -79,7 +79,9 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+	proc.kill();
+}
 
 function setLightTheme(updateOS = true) {
 	userConfig.update(themeKey, lightTheme, true);
