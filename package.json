@@ -1,6 +1,9 @@
 {
 	"name": "os-theme",
 	"publisher": "hoff97",
+	"repository": {
+		"url": "https://github.com/Hoff97/vscode-os-theme"
+	},
 	"displayName": "OS Theme",
 	"description": "Automatically adapt to the light/dark setting of your OS",
 	"version": "0.0.1",
