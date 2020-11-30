@@ -3,6 +3,9 @@
 This is a simple extension that makes sure VS Code uses a dark/light theme
 when your system uses a dark/light theme.
 
+This was inspired by the [themeswitch](https://github.com/Fooxly/themeswitch)
+extension.
+
 ## Features
 
 This extension:
@@ -10,10 +13,6 @@ This extension:
 - Can change your system theme when you switch between a light/dark theme
 
 ## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
 
 This extension contributes the following settings:
 
