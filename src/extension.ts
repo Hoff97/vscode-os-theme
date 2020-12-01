@@ -11,6 +11,7 @@ let enabled: boolean;
 let settingSetOSTheme: boolean;
 let darkOSTheme: string;
 let lightOSTheme: string;
+let windowsControlSystemTheme: boolean;
 
 const extPrefix = "os-theme";
 const themeKey = "workbench.colorTheme";
@@ -27,6 +28,7 @@ function updateSettings() {
   settingSetOSTheme = extensionConfig.setOSTheme;
   darkOSTheme = extensionConfig.darkOSTheme;
   lightOSTheme = extensionConfig.lightOSTheme;
+  windowsControlSystemTheme = extensionConfig.windowsControlSystemTheme;
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -34,16 +36,9 @@ export function activate(context: vscode.ExtensionContext) {
 	updateSettings();
 
 	if (enabled) {
-		cp.exec('gsettings get org.gnome.desktop.interface gtk-theme', parseOSTheme);
+		getCurrentOSTheme();
 
-		proc = cp.spawn('gsettings monitor org.gnome.desktop.interface gtk-theme', {
-			shell: true
-		});
-
-		proc.stdout.on('data', (data) => {
-			// Data is not actually the current theme for whatever reason
-			cp.exec('gsettings get org.gnome.desktop.interface gtk-theme', parseOSTheme);
-		});
+		watchOSTheme();
 	}
 
 	vscode.commands.registerCommand(extPrefix + '.switchToDarkTheme', () => {
@@ -80,7 +75,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {
-	proc.kill("SIGINT");
+	if (proc) {
+		proc.kill("SIGINT");
+	}
 }
 
 function setLightTheme(updateOS = true) {
@@ -101,25 +98,73 @@ function setDarkTheme(updateOS: boolean) {
 	}
 }
 
+function getCurrentOSTheme() {
+	if (process.platform === 'win32') {
+		const command = 'powershell Get-ItemProperty -Path HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize -Name AppsUseLightTheme';
+		cp.exec(command, parseOSTheme);
+	} else {
+		cp.exec('gsettings get org.gnome.desktop.interface gtk-theme', parseOSTheme);
+	}
+}
+
+function watchOSTheme() {
+	if (process.platform === 'win32') {
+
+	} else {
+		proc = cp.spawn('gsettings monitor org.gnome.desktop.interface gtk-theme', {
+			shell: true
+		});
+	
+		proc.stdout.on('data', (data) => {
+			// Data is not actually the current theme for whatever reason
+			getCurrentOSTheme();
+		});
+	}
+}
+
 function parseOSTheme(err: ExecException | null, stdout: string | Buffer, stderr: string | Buffer) {
-	console.log(err, stdout, stderr);
 	if (err !== null) {
 		vscode.window.showErrorMessage('OS Theme extension could not get the current OS theme!');
 		return;
 	}
 
-	if (stdout.toString().search("light") !== -1) {
-		setLightTheme(false);
-	} else if (stdout.toString().search("dark") !== -1) {
-		setDarkTheme(false);
+	if (process.platform === 'win32') {
+		const match = stdout.toString().match('AppsUseLightTheme : ([0|1])');
+		if (match !== null) {
+			const lightTheme = match[1] === '1';
+			if (lightTheme) {
+				setLightTheme(false);
+			} else {
+				setDarkTheme(false);
+			}
+			return;
+		}
 	} else {
-		vscode.window.showErrorMessage(`Could not determine os theme from command output: ${stdout}`);
+		if (stdout.toString().search("light") !== -1) {
+			setLightTheme(false);
+			return;
+		} else if (stdout.toString().search("dark") !== -1) {
+			setDarkTheme(false);
+			return;
+		}
 	}
+	vscode.window.showErrorMessage(`Could not determine os theme from command output: ${stdout}`);
 }
 
 function setOSTheme(theme: string) {
-	let command = `gsettings set org.gnome.desktop.interface gtk-theme ${theme}`;
-	cp.exec(command, (err: any, out: any) => {
-		console.log('Theme set');
-	});
+	if (process.platform === 'win32') {
+		const light = theme === lightOSTheme ? 1 : 0;
+		const command = `powershell New-ItemProperty -Path HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize -Name AppsUseLightTheme -Value ${light} -Type Dword -Force`;
+
+		cp.exec(command);
+
+		if (windowsControlSystemTheme) {
+			const command = `powershell New-ItemProperty -Path HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize -Name SystemUsesLightTheme -Value ${light} -Type Dword -Force`;
+
+			cp.exec(command);
+		}
+	} else {
+		let command = `gsettings set org.gnome.desktop.interface gtk-theme ${theme}`;
+		cp.exec(command);
+	}
 }

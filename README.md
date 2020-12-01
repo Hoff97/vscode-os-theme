@@ -22,15 +22,23 @@ This extension contributes the following settings:
 * `os-theme.darkThemeCustomizations`: Customizations to apply for the dark theme
 * `os-theme.lightThemeCustomizations`: Customizations for the light theme
 * `os-theme.setOSTheme`: Wether the OS Theme should be changed when switching between dark and light theme
-* `os-theme.darkOSTheme`: The name of the preferred dark theme of the system
-* `os-theme.lightOSTheme`: The name of the preferred light theme of the system
+* `os-theme.darkOSTheme`: The name of the preferred dark theme of the system - Does not have an effect under windows
+* `os-theme.lightOSTheme`: The name of the preferred light theme of the system - Does not have an effect under windows
+* `os-theme.windowsControlSystemTheme`: Wether the app and system theme or only the app theme should be controlled under windows
 
 ## Known Issues
 
-This was only tested under Ubuntu 20. It assumes that the system theme
-is managed via gsettings.
+This is tested on the following systems:
+- Ubuntu 20
+- Windows **with powershell installed**
+  - The app theme setting of windows is not currently watched, so the VSCode theme only gets
+    updated automatically when opening a new VSCode window
 
 ## Release Notes
+
+### 1.1.0
+
+Add support for windows.
 
 ### 1.0.0
 
