@@ -78,12 +78,17 @@
 				"os-theme.darkOSTheme": {
 					"type": "string",
 					"default": "Yaru-dark",
-					"description": "Dark OS Theme"
+					"description": "Dark OS Theme - does not have an effect on windows"
 				},
 				"os-theme.lightOSTheme": {
 					"type": "string",
 					"default": "Yaru-light",
-					"description": "Light OS Theme"
+					"description": "Light OS Theme - does not have an effect on windows"
+				},
+				"os-theme.windowsControlSystemTheme": {
+					"type": "boolean",
+					"default": true,
+					"description": "Wether the system theme should be controlled as well (only applies to windows)"
 				}
 			}
 		}
