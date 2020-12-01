@@ -80,7 +80,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {
-	proc.kill();
+	proc.kill("SIGINT");
 }
 
 function setLightTheme(updateOS = true) {
