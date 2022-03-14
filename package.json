@@ -6,7 +6,7 @@
 	},
 	"displayName": "OS Theme",
 	"description": "Automatically adapt to the light/dark mode setting of your OS",
-	"version": "1.1.2",
+	"version": "1.2.0",
 	"engines": {
 		"vscode": "^1.51.0"
 	},

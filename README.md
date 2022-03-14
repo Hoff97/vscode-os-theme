@@ -33,8 +33,13 @@ This is tested on the following systems:
 - Windows **with powershell installed**
   - The app theme setting of windows is not currently watched, so the VSCode theme only gets
     updated automatically when opening a new VSCode window
+- MacOS (Darwin 21.3.0)
 
 ## Release Notes
+
+### 1.2.0
+
+Add support for MacOS.
 
 ### 1.1.0
 
