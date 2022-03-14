@@ -102,6 +102,8 @@ function getCurrentOSTheme() {
 	if (process.platform === 'win32') {
 		const command = 'powershell Get-ItemProperty -Path HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize -Name AppsUseLightTheme';
 		cp.exec(command, parseOSTheme);
+	} else if (process.platform === 'darwin') {
+		cp.exec('defaults read -g AppleInterfaceStyle', parseOSTheme);
 	} else {
 		cp.exec('gsettings get org.gnome.desktop.interface gtk-theme', parseOSTheme);
 	}
@@ -110,11 +112,19 @@ function getCurrentOSTheme() {
 function watchOSTheme() {
 	if (process.platform === 'win32') {
 
+	} else if (process.platform === 'darwin') {
+		proc = cp.spawn('while :; do clear; defaults read -g AppleInterfaceStyle 2> /dev/null || echo \'Light\'; sleep 2; done', {
+			shell: true
+		});
+
+		proc.stdout.on('data', (data) => {
+			parseOSTheme(null, data, '');
+		});
 	} else {
 		proc = cp.spawn('gsettings monitor org.gnome.desktop.interface gtk-theme', {
 			shell: true
 		});
-	
+
 		proc.stdout.on('data', (data) => {
 			// Data is not actually the current theme for whatever reason
 			getCurrentOSTheme();
@@ -137,6 +147,14 @@ function parseOSTheme(err: ExecException | null, stdout: string | Buffer, stderr
 			} else {
 				setDarkTheme(false);
 			}
+			return;
+		}
+	} else if (process.platform === 'darwin') {
+		if (stdout.toString().search("Dark") !== -1) {
+			setDarkTheme(false);
+			return;
+		} else {
+			setLightTheme(false);
 			return;
 		}
 	} else {
@@ -163,6 +181,10 @@ function setOSTheme(theme: string) {
 
 			cp.exec(command);
 		}
+	} else if (process.platform === 'darwin') {
+		const dark = theme !== lightOSTheme;
+		const command = `osascript -l JavaScript -e "Application('System Events').appearancePreferences.darkMode = ${dark}"`;
+		cp.exec(command);
 	} else {
 		let command = `gsettings set org.gnome.desktop.interface gtk-theme ${theme}`;
 		cp.exec(command);
